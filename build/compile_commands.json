@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/alan/top_secret/Web/AlanWeb/build",
+  "command": "/usr/bin/c++   -std=c++17   -Wall -g -o CMakeFiles/AlanWeb.dir/src/main.cpp.o -c /home/alan/top_secret/Web/AlanWeb/src/main.cpp",
+  "file": "/home/alan/top_secret/Web/AlanWeb/src/main.cpp",
+  "output": "CMakeFiles/AlanWeb.dir/src/main.cpp.o"
+}
+]

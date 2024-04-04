@@ -1,0 +1,3 @@
+/home/alan/top_secret/Web/AlanWeb/build/CMakeFiles/AlanWeb.dir
+/home/alan/top_secret/Web/AlanWeb/build/CMakeFiles/edit_cache.dir
+/home/alan/top_secret/Web/AlanWeb/build/CMakeFiles/rebuild_cache.dir
