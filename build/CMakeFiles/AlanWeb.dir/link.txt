@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/AlanWeb.dir/src/main.cpp.o -o AlanWeb 
