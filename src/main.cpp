@@ -1,3 +1,4 @@
+#include <cstring>
 #include <iostream>
 #include <vector>
 #include <filesystem>
@@ -13,6 +14,15 @@ void print(std::ostream &out, T ...args){
 	};
 	(printArg(args), ...);
 }
+
+// being a pain in the arse so ill sort it some other time
+void p(const MD_CHAR* input, MD_SIZE input_size, void* arg){
+  std::string new_file{*(static_cast<std::string*>(arg))};
+  new_file.erase(new_file.find_first_of('.'), new_file.find_last_of('d'));
+  //print(std::cout, new_file+".html\n");
+  print(std::cout, input, '\n');
+  
+};
 
 
 int main(int argc, char **argv){
@@ -40,7 +50,9 @@ int main(int argc, char **argv){
     current_file.close();
     // convert into markdown and shove it into its own html file
     // TODO: change one of the nullptrs to a function that shoves it into a file and hope it works
-    md_html(mInput.c_str(), mInput.length(), nullptr, nullptr, MD_FLAG_LATEXMATHSPANS | MD_FLAG_NOHTMLBLOCKS, 0);
+    // TODO: fix p
+    md_html(mInput.c_str(), mInput.length(), p
+            , static_cast<void*>(&file), MD_FLAG_LATEXMATHSPANS | MD_FLAG_NOHTMLBLOCKS, 0);
     
   }
 
