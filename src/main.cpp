@@ -15,14 +15,20 @@ void print(std::ostream &out, T ...args){
 	(printArg(args), ...);
 }
 
-// being a pain in the arse so ill sort it some other time
-void p(const MD_CHAR* input, MD_SIZE input_size, void* arg){
-  std::string new_file{*(static_cast<std::string*>(arg))};
-  new_file.erase(new_file.find_first_of('.'), new_file.find_last_of('d'));
-  //print(std::cout, new_file+".html\n");
-  print(std::cout, input, '\n');
-  
+void html_converter_callback(const MD_CHAR* input, MD_SIZE input_size, void* arg){
+  // looks to work fine, find a way to get this out the function
+  // current idea, have a pointer on the outside that we can cast the arg into and 
+  // call the append onto i.e.
+  // struct some{string* other} cast<some>(arg)->other->append or something like that
+  std::string *val{static_cast<std::string*>(arg)};
+  val->append(input,input_size);
+  print(std::cout, '\n', *val, '\n');
 };
+
+void convert_to_html(std::string text, std::string *html_output){
+    md_html(text.c_str(), text.length(), html_converter_callback
+            , html_output, MD_FLAG_LATEXMATHSPANS | MD_FLAG_NOHTMLBLOCKS, 0);
+}
 
 
 int main(int argc, char **argv){
@@ -48,11 +54,11 @@ int main(int argc, char **argv){
     }
     std::string mInput{markdown_input.str()};
     current_file.close();
+    std::string html_output;
     // convert into markdown and shove it into its own html file
-    // TODO: change one of the nullptrs to a function that shoves it into a file and hope it works
-    // TODO: fix p
-    md_html(mInput.c_str(), mInput.length(), p
-            , static_cast<void*>(&file), MD_FLAG_LATEXMATHSPANS | MD_FLAG_NOHTMLBLOCKS, 0);
+    convert_to_html(mInput, &html_output);
+   // print(std::cout, "\nOUTPUT: ", md_html(mInput.c_str(), mInput.length(), p
+   //         , static_cast<void*>(&file), MD_FLAG_LATEXMATHSPANS | MD_FLAG_NOHTMLBLOCKS, 0), '\n');
     
   }
 
