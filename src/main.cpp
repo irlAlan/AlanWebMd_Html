@@ -5,6 +5,7 @@
 #include <string>
 #include <md4c.h>
 #include <md4c-html.h>
+#include <md2.h>
 
 template<typename ...T>
 void print(std::ostream &out, T ...args){
@@ -20,7 +21,7 @@ void html_converter_callback(const MD_CHAR* input, MD_SIZE input_size, void* arg
 
 void convert_to_html(std::string text, std::string *html_output){
     md_html(text.c_str(), text.length(), html_converter_callback
-            , html_output, MD_FLAG_LATEXMATHSPANS | MD_FLAG_NOHTMLBLOCKS, 0);
+            , html_output, MD_FLAG_LATEXMATHSPANS, 0);
 }
 
 
@@ -48,10 +49,16 @@ int main(int argc, char **argv){
     std::string mInput{markdown_input.str()};
     current_file.close();
     std::string html_output;
-    // convert into markdown and shove it into its own html file
+    // convert into markdown and shove it into a template html file
     convert_to_html(mInput, &html_output);
     print(std::cout, '\n', html_output);
-    
+
+    file.erase(file.find_first_of('.'), file.find_last_of('d'));
+
+    // temporary
+    std::fstream html_file{output_directory+"/"+file+".html", std::ios::out};
+    html_file << html_output;
+    html_file.close(); 
   }
 
 	return 0;
