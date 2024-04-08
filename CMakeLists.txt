@@ -9,7 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_definitions("-Wall" "-g")
 
-file(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
+file(GLOB SRC_FILES ${CMAKE_SOURCE_DIR}/cpp-src/*.cpp)
 
 include(FetchContent)
 

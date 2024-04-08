@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../templates/template.css">
+  </head>
+
+  <body>
+<h1>A math page to test latex</h1>
+<p>When given a first order differential equation <x-equation>dy/dx = M(x,y)</x-equation>
+if it is Separable then:
+<x-equation>dy/dx = P(x)/Q(x)</x-equation>
+If it's Linear then:
+<x-equation>dy/dx + p(x)y = q(x)</x-equation>
+Good luck</p>
+<p>Falling under Air Resistance:
+For high velocitues, the ari resistence is better modelled as being proportional to the square of the speed
+<x-equation>m\frac{dv}{dt} = mg-1/2(D\rho*Av^2)</x-equation>
+<x-equation>D</x-equation> - drag coefficient (which is dimensionless)
+<x-equation>\rho</x-equation> - air density
+<x-equation>A</x-equation> - cross-sectional area of the object</p>
+<p>left side is mass * acceleration or derivative of velocity</p>
+<p>is there a terminal velocity?
+let <x-equation>v(t)=v_\infty</x-equation>  be constant, and substitute into the ODE
+<x-equation>v_\infty = \sqrt{\frac{2mg}{D\rho A}}</x-equation>
+is this a sensible terminal velocity cause for all values they must tend to this terminal velocity whether its above or below it
+to show that this happens we can step through the problem</p>
+<p><x-equation>\begin{align} m\frac{dv}{dt} = mg-\frac{1}{2}D\rho Av^2\\ \frac{dv}{dt} = g- \frac{1}{2m}D\rho Av^2\\ = \frac{D\rho A}{2m}(v^2_\infty - v^2)\\ = -k(v^2-v^2_\infty). \end{align}</x-equation></p>
+<p>The ODE is seperable
+<x-equation>\begin{align} \frac{dv}{dt} = -k(v^2-v^2_\infty)\\ \frac{dv}{v^2-v^2_\infty} = -kdt \end{align}</x-equation></p>
+<p><x-equation>\begin{align} \int{\frac{dv}{v^2-v^2_\infty}} = -k\int dt\\ \frac{1}{v^2-v^2_\infty} = \frac{1}{2v_\infty}\frac{dv}{v-v_\infty}-\frac{1}{2v_\infty}\frac{dv}{v+v_\infty}\\ \end{align}</x-equation></p>
+
+    
+  </body>
+</html>
+
