@@ -2,10 +2,21 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../templates/template.css">
+    <link rel="stylesheet" href="../web-src/style/style.css">
+    <script src"../web-src/script/script.js"></script>
   </head>
 
   <body>
+    <header>  
+     <div class="dropdown">
+      <button onclick="myFunction()" class="dropbtn">¦</button>
+      <div id="myDropdown" class="dropdown-content">
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+      </div>
+     </div> 
+    </header>
 <h1>A math page to test latex</h1>
 <p>When given a first order differential equation <x-equation>dy/dx = M(x,y)</x-equation>
 if it is Separable then:
@@ -29,7 +40,6 @@ to show that this happens we can step through the problem</p>
 <p>The ODE is seperable
 <x-equation>\begin{align} \frac{dv}{dt} = -k(v^2-v^2_\infty)\\ \frac{dv}{v^2-v^2_\infty} = -kdt \end{align}</x-equation></p>
 <p><x-equation>\begin{align} \int{\frac{dv}{v^2-v^2_\infty}} = -k\int dt\\ \frac{1}{v^2-v^2_\infty} = \frac{1}{2v_\infty}\frac{dv}{v-v_\infty}-\frac{1}{2v_\infty}\frac{dv}{v+v_\infty}\\ \end{align}</x-equation></p>
-
     
   </body>
 </html>

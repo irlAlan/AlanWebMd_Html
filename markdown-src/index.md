@@ -1,4 +1,15 @@
-# Alan Website
+# Alan's Website
+
+## Hey
+
+----------
+
+**Author: Alan**
+
+**Data: 11/04/2023**
+
+----------
+
 
 Hi my name is __Alan__ and this is a **test** LOL
 > yeah just a quick test and dat 
@@ -32,7 +43,7 @@ duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur
 | Item1    | Item1     | Item1     |
 
 
-[To another file](./contact_me.md) 
+[To another file](./contact_me.html) 
 
 ![image](~/Pictures/armourd_kitty.png) 
 

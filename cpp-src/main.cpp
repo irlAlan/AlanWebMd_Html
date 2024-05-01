@@ -1,6 +1,5 @@
-#include <algorithm>
-#include <cctype>
 #include <iostream>
+#include <memory>
 #include <vector>
 #include <filesystem>
 #include <fstream>
@@ -17,15 +16,15 @@
 */
 
 template<typename ...T>
-void print(std::ostream &out, T ...args){
+void print(T ...args){
 	auto printArg{
-		[&out](const auto &arg){out << arg;}
+		[](const auto &arg){std::cout << arg;}
 	};
 	(printArg(args), ...);
 }
 
-void html_converter_callback(const MD_CHAR* input, MD_SIZE input_size, void* arg){
-  static_cast<std::string*>(arg)->append(input, input_size);
+void html_converter_callback(const MD_CHAR* text, MD_SIZE text_size, void* arg){
+  static_cast<std::string*>(arg)->append(text, text_size);
 };
 
 void convert_to_html(std::string text, std::string *html_output){
@@ -37,9 +36,6 @@ void convert_to_html(std::string text, std::string *html_output){
 int main(int argc, char **argv){
   namespace fs = std::filesystem;
 
-  std::vector<std::string> arguments(argv, argc+argv);
-  arguments.erase(arguments.begin());
-
   // create a html directory for the output files
   std::string input_directory{"../markdown-src"};
   std::string output_directory{"../web-src"}; 
@@ -47,32 +43,41 @@ int main(int argc, char **argv){
     fs::create_directory(output_directory);
   }
 
+  // loop through the input directory and convert to html
   for(const auto& files : fs::recursive_directory_iterator(input_directory)){
     std::fstream md_file{files.path().string(), std::ios::in};
-    std::string line;
-    std::stringstream buff;
-    while(std::getline(md_file, line)){
-      buff << line << '\n';
+    std::string md_line;
+    std::stringstream md_buff;
+    while(std::getline(md_file, md_line)){
+      md_buff << md_line << '\n';
     }
     md_file.close();
-    std::string markdownInput{buff.str()};
+    std::string markdownInput{md_buff.str()};
     std::string htmlOutput;
     convert_to_html(markdownInput, &htmlOutput);
-    std::string filepath{files.path().string()};
-    filepath.erase(0, filepath.find_last_of('/')); // get rid of original path
-    filepath.erase(filepath.find_first_of('.'), filepath.find_last_of('d')); // get rid of extension
-    filepath.erase(filepath.begin());
-    filepath.append(".html");
-
-    print(std::cout, filepath, '\n');
+    std::string html_filepath{files.path().string()};
+    html_filepath.erase(0, html_filepath.find_last_of('/')); // get rid of original path
+    html_filepath.erase(html_filepath.find_first_of('.'), html_filepath.find_last_of('d')); // get rid of extension
+    html_filepath.erase(html_filepath.begin());
+    html_filepath.append(".html");
 
     // open up template and copy it into a vector of strings 
-    std::fstream template_file{"../templates/template.html", std::ios::in};
-    std::string template_line;
-    std::vector<std::string> template_data;
-    while(std::getline(template_file, template_line)){
-      template_data.push_back(template_line);
+    std::fstream html_template_file{"../templates/template.html", std::ios::in};
+    std::string html_template_line;
+    std::vector<std::string> html_template_data;
+    while(std::getline(html_template_file, html_template_line)){
+      html_template_data.push_back(html_template_line);
     }
+
+
+    std::fstream css_template_file{"../templates/template.css", std::ios::in};
+    std::fstream css_style_file{"../web-src/style/style.css", std::ios::out};
+    std::string template_css_line{};
+    while(std::getline(css_template_file, template_css_line)){
+      css_style_file << template_css_line << '\n';
+    }
+    css_template_file.close();
+    css_style_file.close();
 
 
     std::vector<std::string> html_data_out;
@@ -83,9 +88,8 @@ int main(int argc, char **argv){
     }
 
     std::vector<std::string> finalOutput;
-    for(std::string line : template_data){
-      print(std::cout, line, '\n');
-      if( line == "  <body>"){
+    for(std::string line : html_template_data){
+      if( line == "    </header>"){
         finalOutput.push_back(line);
         for(const auto& i : html_data_out){
           finalOutput.push_back(i);
@@ -95,16 +99,12 @@ int main(int argc, char **argv){
       }
     }
 
-    std::fstream html_file{output_directory+"/"+filepath, std::ios::out};
-    // html_file << htmlOutput;
+    std::fstream html_file{output_directory+"/"+html_filepath, std::ios::out};
     for(const auto& val : finalOutput){
       html_file << val << '\n';
     }
     html_file.close();
 
-    print(std::cout, '\n');
-
   }
-
   return 0;
 }
